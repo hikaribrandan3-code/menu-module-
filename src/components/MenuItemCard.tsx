@@ -84,97 +84,91 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               <span className="text-[10px] font-black uppercase tracking-widest">Natural</span>
             </motion.div>
           )}
-          <div className="flex gap-2">
-            {isGlutenFree && (
-              <motion.div 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-stone-900/90 backdrop-blur-md text-white shadow-xl border border-white/10"
-                title="Gluten Free"
-              >
-                <Wheat className="h-4 w-4" />
-              </motion.div>
-            )}
-            {isSpicy && (
-              <motion.div 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-emerald-600 text-white shadow-xl"
-                title="Spicy"
-              >
-                <Flame className="h-4 w-4 fill-current" />
-              </motion.div>
-            )}
-          </div>
+          {isSpicy && (
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              className="flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-white shadow-xl"
+            >
+              <Flame className="h-3.5 w-3.5 fill-current" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Spicy</span>
+            </motion.div>
+          )}
+          {isGlutenFree && (
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              className="flex items-center gap-2 rounded-full bg-stone-900/90 backdrop-blur-md px-4 py-2 text-white shadow-xl border border-white/10"
+            >
+              <Wheat className="h-3.5 w-3.5" />
+              <span className="text-[10px] font-black uppercase tracking-widest">No TACC</span>
+            </motion.div>
+          )}
         </div>
       </div>
 
-      <div className="flex flex-grow flex-col gap-6 p-8 md:p-12">
+      <div className="flex flex-grow flex-col gap-4 p-6 md:p-8">
         <div className="flex justify-between items-start gap-4">
-          <h4 className="flex-grow font-display text-3xl md:text-4xl font-black text-stone-950 leading-[1.1] italic">
+          <h4 className="flex-grow font-display text-xl md:text-2xl font-black text-stone-950 leading-tight italic">
             {item.name}
           </h4>
-          <div className="flex-shrink-0">
-             <span className="text-2xl md:text-3xl font-black text-emerald-600 font-display">
-               ${item.price}
-             </span>
+          <div className="flex-shrink-0 flex flex-col items-end gap-1.5">
+            <span className="text-xl md:text-2xl font-black text-emerald-600 font-display">
+              ${item.price}
+            </span>
+            <div className="flex items-center gap-1.5 opacity-40">
+               {isVegan && <Leaf className="h-3 w-3 text-emerald-600 fill-current" />}
+               {isGlutenFree && <Wheat className="h-3 w-3 text-stone-950" />}
+               {isSpicy && <Flame className="h-3 w-3 text-rose-600 fill-current" />}
+            </div>
           </div>
         </div>
 
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full h-24 bg-transparent text-base md:text-lg font-medium leading-relaxed text-stone-500 italic resize-none border-none outline-none focus:text-stone-900 transition-colors"
-        />
+        <p className="text-[12px] font-medium leading-relaxed text-stone-500 line-clamp-2">
+          {description}
+        </p>
 
-        <div className="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
-          <div className="flex flex-wrap gap-2">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-50">
+          <div className="flex items-center gap-2">
             <button 
-              onClick={() => setIsVegan(!isVegan)}
-              className={`p-2 rounded-full border transition-all ${isVegan ? 'bg-emerald-50 border-emerald-100 text-emerald-600' : 'bg-stone-50 border-stone-200 text-stone-300 hover:text-stone-400'}`}
-              title="Toggle Natural/Vegan"
+              onClick={() => setInStock(!inStock)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all active:scale-95 text-[9px] font-black uppercase tracking-[0.15em] shadow-sm ${
+                inStock 
+                  ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
+                  : 'bg-stone-100 text-stone-400 border-stone-200'
+              }`}
             >
-              <Leaf className={`h-4 w-4 ${isVegan ? 'fill-current' : ''}`} />
+              <div className={`h-1.5 w-1.5 rounded-full ${inStock ? 'bg-emerald-500 animate-pulse' : 'bg-stone-300'}`} />
+              {inStock ? 'Available' : 'Sold Out'}
             </button>
-            <button 
-              onClick={() => setIsGlutenFree(!isGlutenFree)}
-              className={`p-2 rounded-full border transition-all ${isGlutenFree ? 'bg-stone-900 border-stone-900 text-white' : 'bg-stone-50 border-stone-200 text-stone-300 hover:text-stone-400'}`}
-              title="Toggle Gluten Free"
-            >
-              <Wheat className="h-4 w-4" />
-            </button>
-            <button 
-              onClick={() => setIsSpicy(!isSpicy)}
-              className={`p-2 rounded-full border transition-all ${isSpicy ? 'bg-emerald-50 border-emerald-100 text-emerald-600' : 'bg-stone-50 border-stone-200 text-stone-300 hover:text-stone-400'}`}
-              title="Toggle Spicy"
-            >
-              <Flame className={`h-4 w-4 ${isSpicy ? 'fill-current' : ''}`} />
-            </button>
-            <button 
-              onClick={() => setIsFeatured(!isFeatured)}
-              className={`p-2 rounded-full border transition-all ${isFeatured ? 'bg-amber-50 border-amber-100 text-amber-500' : 'bg-stone-50 border-stone-200 text-stone-300 hover:text-stone-400'}`}
-              title="Toggle Featured"
-            >
-              <Star className={`h-4 w-4 ${isFeatured ? 'fill-current' : ''}`} />
-            </button>
-            <div className="h-8 w-px bg-stone-100 mx-1" />
-            <div className="flex items-center gap-2">
-              <div className={`h-2 w-2 rounded-full ${inStock ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 'bg-stone-300'}`} />
-              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-stone-400">
-                {inStock ? 'In Kitchen' : 'Sold Out'}
-              </span>
+            <div className="flex gap-1">
+              <button 
+                onClick={() => setIsVegan(!isVegan)}
+                className={`p-1.5 rounded-lg border transition-all ${isVegan ? 'bg-emerald-50 border-emerald-100 text-emerald-600' : 'bg-white border-stone-200 text-stone-300'}`}
+              >
+                <Leaf className="h-3 w-3" />
+              </button>
+              <button 
+                onClick={() => setIsGlutenFree(!isGlutenFree)}
+                className={`p-1.5 rounded-lg border transition-all ${isGlutenFree ? 'bg-stone-900 border-stone-900 text-white' : 'bg-white border-stone-200 text-stone-300'}`}
+              >
+                <Wheat className="h-3 w-3" />
+              </button>
+              <button 
+                onClick={() => setIsSpicy(!isSpicy)}
+                className={`p-1.5 rounded-lg border transition-all ${isSpicy ? 'bg-rose-50 border-rose-100 text-rose-600' : 'bg-white border-stone-200 text-stone-300'}`}
+              >
+                <Flame className="h-3 w-3" />
+              </button>
             </div>
           </div>
           
           <button 
-            onClick={() => setInStock(!inStock)}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full border-2 transition-all active:scale-95 text-[10px] font-black uppercase tracking-[0.1em] shadow-sm ${
-              inStock 
-                ? 'bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-100' 
-                : 'bg-stone-900 text-white border-stone-900 hover:bg-stone-800'
-            }`}
+            onClick={() => setIsFeatured(!isFeatured)}
+            className={`p-2 rounded-xl border transition-all ${isFeatured ? 'bg-amber-50 border-amber-200 text-amber-500' : 'bg-white border-stone-200 text-stone-300'}`}
+            title="Toggle Featured"
           >
-            {inStock ? 'Sold Out' : 'Available'}
+            <Star className={`h-4 w-4 ${isFeatured ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>
