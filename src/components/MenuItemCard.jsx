@@ -1,29 +1,26 @@
-import { motion, AnimatePresence } from 'motion/react';
+/*
+Translation Keys Needed:
+- kcal_label
+- special_label
+- natural_label
+- spicy_label
+- no_tacc_label
+- available_label
+- sold_out_label
+*/
+
+import { motion } from 'motion/react';
 import { 
   Flame, 
   Leaf, 
   Star, 
-  Wheat, 
-  ChevronRight
+  Wheat
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
-export interface MenuItemProps {
-  id: string;
-  business_id?: string;
-  name: string;
-  price: string | number;
-  description: string;
-  image: string;
-  kcal: number;
-  inStock: boolean;
-  isVegan?: boolean;
-  isGlutenFree?: boolean;
-  isSpicy?: boolean;
-  isFeatured?: boolean;
-}
-
-export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
+export function MenuItemCard({ item }) {
+  const { t } = useLanguage();
   const [inStock, setInStock] = useState(item.inStock);
   const [description, setDescription] = useState(item.description);
   const [kcal, setKcal] = useState(item.kcal);
@@ -59,7 +56,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               onChange={(e) => setKcal(Number(e.target.value))}
               className="w-10 bg-transparent text-[10px] font-bold uppercase tracking-[0.1em] border-none outline-none focus:text-emerald-600"
             />
-            <span className="text-[10px] font-bold uppercase tracking-[0.1em]">KCAL</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.1em]">{t('kcal_label')}</span>
           </div>
         </div>
 
@@ -71,7 +68,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               className="flex items-center gap-2 rounded-full bg-amber-500 px-4 py-2 text-white shadow-xl border border-amber-400/50"
             >
               <Star className="h-3.5 w-3.5 fill-current" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Special</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{t('special_label')}</span>
             </motion.div>
           )}
           {isVegan && (
@@ -81,7 +78,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               className="flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-white shadow-xl"
             >
               <Leaf className="h-3.5 w-3.5 fill-current" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Natural</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{t('natural_label')}</span>
             </motion.div>
           )}
           {isSpicy && (
@@ -91,7 +88,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               className="flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-white shadow-xl"
             >
               <Flame className="h-3.5 w-3.5 fill-current" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Spicy</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{t('spicy_label')}</span>
             </motion.div>
           )}
           {isGlutenFree && (
@@ -101,7 +98,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               className="flex items-center gap-2 rounded-full bg-stone-900/90 backdrop-blur-md px-4 py-2 text-white shadow-xl border border-white/10"
             >
               <Wheat className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-black uppercase tracking-widest">No TACC</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">{t('no_tacc_label')}</span>
             </motion.div>
           )}
         </div>
@@ -139,7 +136,7 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
               }`}
             >
               <div className={`h-1.5 w-1.5 rounded-full ${inStock ? 'bg-emerald-500 animate-pulse' : 'bg-stone-300'}`} />
-              {inStock ? 'Available' : 'Sold Out'}
+              {inStock ? t('available_label') : t('sold_out_label')}
             </button>
             <div className="flex gap-1">
               <button 
@@ -174,4 +171,4 @@ export const MenuItemCard: React.FC<{ item: MenuItemProps }> = ({ item }) => {
       </div>
     </motion.div>
   );
-};
+}

@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect } from 'react';
-import { AppProvider, useApp } from './context/AppContext';
+import React, { useEffect } from 'react';
+import { useTenant, TenantProvider } from './contexts/TenantContext';
+import { useLanguage, LanguageProvider } from './contexts/LanguageContext';
+import { LocalStateProvider, useLocalState } from './context/LocalStateContext';
 import { MenuManagement } from './components/MenuManagement';
 import { InventoryManagement } from './components/InventoryManagement';
 import { DeliverySettings } from './components/DeliverySettings';
@@ -12,14 +14,19 @@ import { PortalHeader } from './components/Navigation';
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <TenantProvider>
+      <LanguageProvider>
+        <LocalStateProvider>
+          <AppContent />
+        </LocalStateProvider>
+      </LanguageProvider>
+    </TenantProvider>
   );
 }
 
 function AppContent() {
-  const { activeTab } = useApp();
+  const { activeTab } = useLocalState();
+  const { businessId } = useTenant();
 
   useEffect(() => {
     document.body.classList.add('restaurant-portal');
@@ -45,8 +52,6 @@ function AppContent() {
         )}
       </main>
       
-      <footer className="py-12 border-t border-stone-200 text-center">
-      </footer>
     </div>
   );
 }

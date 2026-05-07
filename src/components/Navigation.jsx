@@ -1,8 +1,16 @@
-import { Store, Moon, Sun } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+/*
+Translation Keys Needed:
+- menu_tab
+- inventory_tab
+*/
+
+import React from 'react';
+import { useLocalState } from '../context/LocalStateContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function PortalHeader() {
-  const { activeTab, setActiveTab } = useApp();
+  const { activeTab, setActiveTab } = useLocalState();
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-stone-200">
@@ -16,7 +24,7 @@ export function PortalHeader() {
                 : 'text-stone-400 hover:text-stone-600'
             }`}
           >
-            Menu
+            {t('menu_tab')}
           </button>
           <button 
             onClick={() => setActiveTab('inventory')}
@@ -26,7 +34,7 @@ export function PortalHeader() {
                 : 'text-stone-400 hover:text-stone-600'
             }`}
           >
-            Inventory
+            {t('inventory_tab')}
           </button>
         </nav>
       </div>

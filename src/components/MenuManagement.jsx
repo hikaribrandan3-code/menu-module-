@@ -1,12 +1,30 @@
+/*
+Translation Keys Needed:
+- cuisine_library_label
+- menu_offerings_title
+- curate_vision_subtitle
+- new_recipe_button
+- add_food_photo_label
+- create_recipe_title
+- dish_name_label
+- price_label
+- calories_label
+- description_label
+- add_to_menu_button
+*/
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus, Search, Filter, X, Camera, Flame, ChefHat, Wallet } from 'lucide-react';
-import { MenuItemCard, MenuItemProps } from './MenuItemCard';
-import { useApp } from '../context/AppContext';
+import { Plus, X, Camera, Flame } from 'lucide-react';
+import { MenuItemCard } from './MenuItemCard';
+import { useTenant } from '../contexts/TenantContext';
+import { useLocalState } from '../context/LocalStateContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { CategorySidebar } from './CategorySidebar';
 
 export function MenuManagement() {
-  const { businessId } = useApp();
+  const { businessId } = useTenant();
+  const { t } = useLanguage();
   const [isAdding, setIsAdding] = useState(false);
   const [newRecipe, setNewRecipe] = useState({
     name: '',
@@ -16,7 +34,7 @@ export function MenuManagement() {
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800'
   });
 
-  const [menuItems, setMenuItems] = useState<MenuItemProps[]>([
+  const [menuItems, setMenuItems] = useState([
     {
       id: '1',
       name: 'Supreme Burger',
@@ -61,7 +79,7 @@ export function MenuManagement() {
   const handleAddRecipe = () => {
     if (!newRecipe.name || !newRecipe.price) return;
     
-    const newItem: MenuItemProps = {
+    const newItem = {
       id: Math.random().toString(36).substr(2, 9),
       name: newRecipe.name,
       description: newRecipe.description || 'A new discovery.',
@@ -93,13 +111,13 @@ export function MenuManagement() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="h-6 w-1 bg-emerald-600 rounded-full" />
-              <p className="text-emerald-600 font-black tracking-[0.3em] uppercase text-[10px] md:text-[12px]">Digital Cuisine Library</p>
+              <p className="text-emerald-600 font-black tracking-[0.3em] uppercase text-[10px] md:text-[12px]">{t('cuisine_library_label')}</p>
             </div>
             <h2 className="font-display text-4xl md:text-7xl text-stone-950 mb-6 font-black tracking-tight leading-none italic">
-              Menu Offerings
+              {t('menu_offerings_title')}
             </h2>
             <p className="text-base md:text-xl text-stone-600 leading-relaxed font-medium">
-              Curate your culinary vision.
+              {t('curate_vision_subtitle')}
             </p>
           </div>
           <div className="flex gap-4 w-full lg:w-auto">
@@ -107,7 +125,7 @@ export function MenuManagement() {
               onClick={() => setIsAdding(true)}
               className="flex-grow lg:flex-none flex items-center justify-center gap-3 px-12 h-16 bg-emerald-600 text-white font-black text-sm md:text-base uppercase tracking-[0.2em] rounded-2xl hover:bg-emerald-500 transition-all shadow-2xl active:scale-95"
             >
-              New Recipe
+              {t('new_recipe_button')}
             </button>
           </div>
         </div>
@@ -145,14 +163,14 @@ export function MenuManagement() {
                 <div className="h-20 w-20 rounded-full bg-white flex items-center justify-center shadow-lg mb-4 text-stone-300 group-hover/upload:text-emerald-500 transition-colors z-10">
                   <Camera className="h-10 w-10" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400 z-10">Add Food Photo</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400 z-10">{t('add_food_photo_label')}</p>
                 <div className="absolute inset-0 bg-emerald-50 opacity-0 group-hover/upload:opacity-100 transition-opacity"></div>
               </div>
 
               {/* Form Side */}
               <div className="flex-grow p-8 md:p-12 space-y-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-2xl font-display font-black tracking-tight italic">Create Recipe</h3>
+                  <h3 className="text-2xl font-display font-black tracking-tight italic">{t('create_recipe_title')}</h3>
                   <button onClick={() => setIsAdding(false)} className="text-stone-300 hover:text-stone-950 transition-colors">
                     <X className="h-6 w-6" />
                   </button>
@@ -160,7 +178,7 @@ export function MenuManagement() {
 
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Dish Name</label>
+                    <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">{t('dish_name_label')}</label>
                     <input 
                       type="text" 
                       placeholder="The Midnight Saffron..."
@@ -172,7 +190,7 @@ export function MenuManagement() {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Price ($)</label>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">{t('price_label')}</label>
                       <input 
                         type="text" 
                         placeholder="28.00"
@@ -182,7 +200,7 @@ export function MenuManagement() {
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Calories (KCAL)</label>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">{t('calories_label')}</label>
                       <div className="relative">
                         <Flame className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-300" />
                         <input 
@@ -197,7 +215,7 @@ export function MenuManagement() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Description</label>
+                    <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest">{t('description_label')}</label>
                     <textarea 
                       placeholder="Briefly describe the flavor profile..."
                       className="w-full h-24 bg-stone-50 border-none rounded-xl p-4 font-medium text-stone-500 italic resize-none outline-none focus:bg-stone-100"
@@ -211,7 +229,7 @@ export function MenuManagement() {
                   onClick={handleAddRecipe}
                   className="w-full bg-stone-950 text-white font-display font-black uppercase tracking-[0.15em] italic py-4 rounded-2xl hover:bg-emerald-600 transition-all flex items-center justify-center"
                 >
-                  Add to Menu
+                  {t('add_to_menu_button')}
                 </button>
               </div>
             </motion.div>

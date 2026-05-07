@@ -1,8 +1,15 @@
-import { motion } from 'motion/react';
-import { useApp } from '../context/AppContext';
+/*
+Translation Keys Needed:
+- category_label
+*/
+
+import React from 'react';
+import { useLocalState } from '../context/LocalStateContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function CategorySidebar() {
-  const { activeCategory, setActiveCategory } = useApp();
+  const { activeCategory, setActiveCategory } = useLocalState();
+  const { t } = useLanguage();
 
   const categories = [
     { name: 'Burgers', count: 12 },
@@ -15,7 +22,7 @@ export function CategorySidebar() {
     <aside className="w-full lg:w-72 flex-shrink-0">
       <div className="lg:sticky lg:top-32 lg:rounded-[2rem] lg:border border-stone-200 lg:bg-white p-4 md:p-8 shadow-sm">
         <h3 className="mb-4 md:mb-6 hidden md:block px-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400 italic">
-          Culina Catalog [/]
+          {t('category_label')}
         </h3>
         <ul className="flex list-none m-0 p-0 gap-3 md:gap-4 overflow-x-auto pb-4 md:pb-0 scrollbar-hide lg:flex-col lg:overflow-x-visible">
           {categories.map((cat) => (
