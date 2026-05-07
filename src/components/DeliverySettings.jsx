@@ -36,7 +36,7 @@ export function DeliverySettings() {
            <Leaf className="w-40 h-40 text-emerald-500 -rotate-12" />
         </div>
         
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10">
+        <div className="flex flex-col items-center text-center gap-6 relative z-10">
           <div className="max-w-2xl">
             <h2 className="font-display text-3xl md:text-5xl text-stone-950 mb-3 font-black tracking-tight leading-none italic">
               {t('delivery_system_title')}

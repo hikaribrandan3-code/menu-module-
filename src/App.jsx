@@ -45,10 +45,7 @@ function AppContent() {
             <DeliverySettings />
           </div>
         ) : (
-          <div className="space-y-20">
-            <InventoryManagement />
-            <DeliverySettings />
-          </div>
+          <InventoryManagement />
         )}
       </main>
       
